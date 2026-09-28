@@ -56,12 +56,7 @@ class DatabaseSettingsRepository:
         self, group: str, *, tenant_id: str = GLOBAL_TENANT_ID
     ) -> dict[str, Any]:
         async def _load() -> dict[str, Any]:
-            rows = await (
-                self._qb()
-                .where("group", group)
-                .where("tenant_id", tenant_id)
-                .get()
-            )
+            rows = await self._qb().where("group", group).where("tenant_id", tenant_id).get()
             return {str(r["name"]): _decode(r.get("payload")) for r in rows}
 
         return _run(_load())
@@ -157,9 +152,7 @@ class DatabaseSettingsRepository:
 
         _run(_update())
 
-    def delete_property(
-        self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID
-    ) -> None:
+    def delete_property(self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID) -> None:
         async def _delete() -> None:
             await (
                 self._qb()
@@ -209,9 +202,7 @@ class DatabaseSettingsRepository:
 
         _run(_unlock())
 
-    def get_locked_properties(
-        self, group: str, *, tenant_id: str = GLOBAL_TENANT_ID
-    ) -> list[str]:
+    def get_locked_properties(self, group: str, *, tenant_id: str = GLOBAL_TENANT_ID) -> list[str]:
         async def _locked() -> list[str]:
             rows = await (
                 self._qb()

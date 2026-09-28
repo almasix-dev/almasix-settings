@@ -61,7 +61,9 @@ class SettingsBlueprint:
 
     def run(self) -> None:
         for op, args, kwargs in self._ops:
-            getattr(self.migrator, f"_op_{op}")(self.group, *args, tenant_id=self.tenant_id, **kwargs)
+            getattr(self.migrator, f"_op_{op}")(
+                self.group, *args, tenant_id=self.tenant_id, **kwargs
+            )
 
 
 class SettingsMigrator:
@@ -139,9 +141,7 @@ class SettingsMigrator:
         # Avoid double-encrypt: if decrypt works and re-encrypt differs, assume plaintext.
         plain = try_decrypt_payload(payload)
         # If decrypt returned something different-looking ciphertext still, encrypt plain.
-        repo.update_properties_payload(
-            group, {name: encrypt_payload(plain)}, tenant_id=tenant_id
-        )
+        repo.update_properties_payload(group, {name: encrypt_payload(plain)}, tenant_id=tenant_id)
 
     def _op_decrypt(self, group: str, name: str, *, tenant_id: str) -> None:
         repo = self.repo()

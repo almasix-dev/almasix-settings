@@ -101,7 +101,10 @@ class RedisSettingsRepository:
     def check_if_property_exists(
         self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID
     ) -> bool:
-        return self._client().get(self._key(group, name, tenant_id), connection=self.connection) is not None
+        return (
+            self._client().get(self._key(group, name, tenant_id), connection=self.connection)
+            is not None
+        )
 
     def get_property_payload(
         self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID
@@ -139,9 +142,7 @@ class RedisSettingsRepository:
             locked = _decode_row(raw)["locked"] if raw is not None else False
             self._client().set(key, _encode_row(payload, locked=locked), connection=self.connection)
 
-    def delete_property(
-        self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID
-    ) -> None:
+    def delete_property(self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID) -> None:
         self._client().delete(self._key(group, name, tenant_id), connection=self.connection)
 
     def lock_properties(
@@ -178,9 +179,7 @@ class RedisSettingsRepository:
                 key, _encode_row(row["payload"], locked=False), connection=self.connection
             )
 
-    def get_locked_properties(
-        self, group: str, *, tenant_id: str = GLOBAL_TENANT_ID
-    ) -> list[str]:
+    def get_locked_properties(self, group: str, *, tenant_id: str = GLOBAL_TENANT_ID) -> list[str]:
         props = self.get_properties_in_group(group, tenant_id=tenant_id)
         locked: list[str] = []
         for name in props:

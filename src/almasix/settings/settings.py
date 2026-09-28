@@ -154,7 +154,11 @@ class Settings:
         """Assign attributes from a form payload."""
         repo = get_repository(type(self).repository())
         tid = getattr(self, "_tenant_id", GLOBAL_TENANT_ID)
-        locked = set(repo.get_locked_properties(type(self).group(), tenant_id=tid)) if respect_locked else set()
+        locked = (
+            set(repo.get_locked_properties(type(self).group(), tenant_id=tid))
+            if respect_locked
+            else set()
+        )
         for name, value in data.items():
             if name not in type(self).property_names():
                 continue

@@ -69,9 +69,7 @@ class MemorySettingsRepository:
             else:
                 self.create_property(group, name, payload, tenant_id=tenant_id)
 
-    def delete_property(
-        self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID
-    ) -> None:
+    def delete_property(self, group: str, name: str, *, tenant_id: str = GLOBAL_TENANT_ID) -> None:
         self._rows.pop((tenant_id, group, name), None)
 
     def lock_properties(
@@ -98,9 +96,7 @@ class MemorySettingsRepository:
             if key in self._rows:
                 self._rows[key]["locked"] = False
 
-    def get_locked_properties(
-        self, group: str, *, tenant_id: str = GLOBAL_TENANT_ID
-    ) -> list[str]:
+    def get_locked_properties(self, group: str, *, tenant_id: str = GLOBAL_TENANT_ID) -> list[str]:
         return sorted(
             name
             for (tid, grp, name), row in self._rows.items()
