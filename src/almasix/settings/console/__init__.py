@@ -54,9 +54,7 @@ class MakeSettingsCommand(Command):
 
 
 class MakeSettingsMigrationCommand(Command):
-    signature = (
-        "make:settings-migration {name : Migration name (e.g. create_general_settings)}"
-    )
+    signature = "make:settings-migration {name : Migration name (e.g. create_general_settings)}"
     description = "Create a settings property migration under database/settings"
 
     def handle(self) -> int:

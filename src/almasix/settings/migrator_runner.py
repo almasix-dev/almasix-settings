@@ -82,9 +82,7 @@ def run_settings_migrations(
                 from almasix.orm.facade import DB
 
                 async def _mark(name: str = migration_key) -> None:
-                    await DB.table("settings_migrations").insert(
-                        {"migration": name, "batch": 1}
-                    )
+                    await DB.table("settings_migrations").insert({"migration": name, "batch": 1})
 
                 try:
                     asyncio.get_running_loop()

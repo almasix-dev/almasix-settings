@@ -89,8 +89,7 @@ def get_repository(name: str | None = None) -> SettingsRepository:
     key = name or _default_name
     if key not in _repositories:
         raise UnknownRepository(
-            f"Settings repository {key!r} is not registered. "
-            f"Known: {sorted(_repositories)!r}"
+            f"Settings repository {key!r} is not registered. Known: {sorted(_repositories)!r}"
         )
     return _repositories[key]
 
